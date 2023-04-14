@@ -2,14 +2,14 @@ import os
 import sys
 
 DIR = sys.argv[1]
-COMMANDS_PATH = "{}/commands".format(DIR)
+COMMANDS_PATH = f"{DIR}/commands"
 
 options = ['help', 'verbose', 'source', 'region', 'profile']
-param_options = ['--{}'.format(o) for o in options]
+param_options = [f'--{o}' for o in options]
 joined_options = ' '.join(param_options)
 commands = os.listdir(COMMANDS_PATH)
 print('_awsinfo_complete () {')
-print('COMMANDS="{}"'.format(' '.join(commands)))
+print(f"""COMMANDS="{' '.join(commands)}\"""")
 print('''
 COMPREPLY=($(compgen -W "$COMMANDS" -- "$2"))
 if [[ "$3" == "awsinfo" ]]
@@ -24,10 +24,10 @@ else
 case "$3" in''')
 
 for command in commands:
-    subfiles = os.listdir('{}/{}'.format(COMMANDS_PATH, command))
+    subfiles = os.listdir(f'{COMMANDS_PATH}/{command}')
     subcommands = (' '.join([s.split('.')[0] for s in subfiles if s.endswith('.bash') and s != 'index.bash']))
     # if subcommands:
-    print('    {}) COMPREPLY=($(compgen -W "{}" "$2"));;'.format(command, subcommands))
+    print(f'    {command}) COMPREPLY=($(compgen -W "{subcommands}" "$2"));;')
 
 print('    *) COMPREPLY=();;')
 

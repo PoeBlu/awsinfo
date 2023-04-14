@@ -18,12 +18,7 @@ formatter = TableFormatter(Object(color='on'))
 formatter.table = table
 
 
-DATA = []
-
-for line in sys.stdin.readlines():
-    if line.strip():
-        DATA.append(json.loads(line))
-
+DATA = [json.loads(line) for line in sys.stdin.readlines() if line.strip()]
 formatter(sys.argv[1], DATA, stream=stream)
-output = stream.getvalue()
-if output: print(output)
+if output := stream.getvalue():
+    print(output)
